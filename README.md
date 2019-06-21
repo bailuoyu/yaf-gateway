@@ -1,46 +1,44 @@
-GatewayWorker windows 版本
-=================
+# yaf-socket
+结合Workerman,Yaf的MVC形式socket服务
+***
+## yaf_sockt简介
+1. 此源码结合了Workerman的Gateway框架和Yaf框架，实现了基于MVC结构的socket服务。
+2. Gateway和yaf都只修改了入口文件，并未改变两个框架的核心部分，可以按照两个框架的官方文档使用所有功能，不必担心拓展和升级问题。
+3. Gateway官方文档：http://doc2.workerman.net
+4. Yaf官方文档：http://www.laruence.com/manual/ 
+5. PHP官方的Yaf文档：https://www.php.net/manual/zh/book.yaf.php
 
-GatewayWorker基于[Workerman](https://github.com/walkor/Workerman)开发的一个项目框架，用于快速开发长连接应用，例如app推送服务端、即时IM服务端、游戏服务端、物联网、智能家居等等。
+## 一.配置环境
 
-GatewayWorker使用经典的Gateway和Worker进程模型。Gateway进程负责维持客户端连接，并转发客户端的数据给Worker进程处理；Worker进程负责处理实际的业务逻辑，并将结果推送给对应的客户端。Gateway服务和Worker服务可以分开部署在不同的服务器上，实现分布式集群。
+1. ### php环境
+    1. php版本：7.0及以上，推荐版本7.2(5.5,5.6版本理论上也可以，可能需要修改部分bug)
+    1. yaf扩展：2.0以上，推荐3.0以上(2.0只支持到php5.5,5.6)
+    1. php.ini配置：
+        1. 错误等级,推荐E_ALL & ~E_NOTICE
+        1. 加入yaf配置
+        ```
+        [yaf]
+        extension=yaf.so
+        yaf.use_namespace=1
+        yaf.cache_config=1
+        yaf.environ=dev     #(dev,local,product根据部署环境填写)
+        ```
 
-GatewayWorker提供非常方便的API，可以全局广播数据、可以向某个群体广播数据、也可以向某个特定客户端推送数据。配合Workerman的定时器，也可以定时推送数据。
+1. ### linux环境
+    1. Cenos：7.0以上，理论上linux版本没影响
 
-GatewayWorker Linux 版本
-======================
-Linux 版本GatewayWorker 在这里 https://github.com/walkor/GatewayWorker
+## 二.运行环境
+1. ### 配置
+    1. 集成了local，lan，dev，product四个环境，对应php.ini中的yaf.environ配置，具体请参考yaf-socket\conf\dev\application.ini和yaf-socket\conf\dev\gateway\client.php
+    2. application.ini为yaf的配置，client.php为Gateway的配置，详细请查看官方文档，示例中开启了一个tcp，一个text，两个websocket进程。
 
-启动
-=======
-双击start_for_win.bat
 
-Applications\YourApp测试方法
-======
-使用telnet命令测试（不要使用windows自带的telnet）
-```shell
- telnet 127.0.0.1 8282
-Trying 127.0.0.1...
-Connected to 127.0.0.1.
-Escape character is '^]'.
-Hello 3
-3 login
-haha
-3 said haha
-```
+1. ### 集成
+    1. library中集成了redis，file，log等操作类，为本源码使用的功能插件，自行结合yaf开发，不足之处可以自行修改
+    2. 集成了composer，安装了Gateway，这是必须的，想要使用其他插件请自行添加。
 
-手册
-=======
-http://www.workerman.net/gatewaydoc/
+1. ### 运行
+    1. socket入口文件为yaf-socket\start.php，socket启动命令为php start.php start
+    1. MVC形式yaf入口文件为yaf_socket\gateway\client\Events.php，socket服务连接上以后，client通过发送json字符串，传递route参数从而实现类似yaf web请求的MVC，比如route为client/test/index时会进入到 yaf_socket\application\modules\Client\controllers\Test.php中的indexAction()方法，向所有用户发送消息。
+    
 
-使用GatewayWorker-for-win开发的项目
-=======
-## [tadpole](http://kedou.workerman.net/)  
-[Live demo](http://kedou.workerman.net/)  
-[Source code](https://github.com/walkor/workerman)  
-![workerman-todpole](http://www.workerman.net/img/workerman-todpole.png)   
-
-## [chat room](http://chat.workerman.net/)  
-[Live demo](http://chat.workerman.net/)  
-[Source code](https://github.com/walkor/workerman-chat)  
-![workerman-chat](http://www.workerman.net/img/workerman-chat.png)  
