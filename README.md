@@ -1,7 +1,7 @@
 # yaf-socket
 结合Workerman,Yaf的MVC形式socket服务
 ***
-## yaf_sockt简介
+## yaf_gateway简介
 1. 此源码结合了Workerman的Gateway框架和Yaf框架，实现了基于MVC结构的socket服务。
 2. Gateway和yaf都只修改了入口文件，并未改变两个框架的核心部分，可以按照两个框架的官方文档使用所有功能，不必担心拓展和升级问题。
 3. Gateway官方文档：http://doc2.workerman.net
@@ -39,6 +39,6 @@
 
 1. ### 运行
     1. socket入口文件为yaf-socket\start.php，socket启动命令为php start.php start
-    1. MVC形式yaf入口文件为yaf_socket\gateway\client\Events.php，socket服务连接上以后，client通过发送json字符串，传递route参数从而实现类似yaf web请求的MVC，比如route为client/test/index时会进入到 yaf_socket\application\modules\Client\controllers\Test.php中的indexAction()方法，向所有用户发送消息。
+    1. MVC形式yaf入口文件为yaf_gateway\gateway\client\Events.php，socket服务连接上以后，client通过发送json字符串，传递route参数从而实现类似yaf web请求的MVC，比如route为client/test/index时会进入到 yaf_gateway\application\modules\Client\controllers\Test.php中的indexAction()方法，向所有用户发送消息。
     
 
