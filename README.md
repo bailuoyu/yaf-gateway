@@ -1,4 +1,4 @@
-# yaf-socket
+# yaf-gateway
 结合Workerman,Yaf的MVC形式socket服务
 ***
 ## yaf_gateway简介
@@ -29,7 +29,7 @@
 
 ## 二.运行环境
 1. ### 配置
-    1. 集成了local，lan，dev，product四个环境，对应php.ini中的yaf.environ配置，具体请参考yaf-socket\conf\dev\application.ini和yaf-socket\conf\dev\gateway\client.php
+    1. 集成了local，lan，dev，product四个环境，对应php.ini中的yaf.environ配置，具体请参考yaf-gateway\conf\dev\application.ini和yaf-gateway\conf\dev\gateway\client.php
     2. application.ini为yaf的配置，client.php为Gateway的配置，详细请查看官方文档，示例中开启了一个tcp，一个text，两个websocket进程。
 
 
@@ -38,7 +38,7 @@
     2. 集成了composer，安装了Gateway，这是必须的，想要使用其他插件请自行添加。
 
 1. ### 运行
-    1. socket入口文件为yaf-socket\start.php，socket启动命令为php start.php start
+    1. socket入口文件为yaf-gateway\start.php，socket启动命令为php start.php start
     1. MVC形式yaf入口文件为yaf_gateway\gateway\client\Events.php，socket服务连接上以后，client通过发送json字符串，传递route参数从而实现类似yaf web请求的MVC，比如route为client/test/index时会进入到 yaf_gateway\application\modules\Client\controllers\Test.php中的indexAction()方法，向所有用户发送消息。
     
 
